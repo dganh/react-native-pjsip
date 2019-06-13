@@ -25,6 +25,10 @@ public class AccountConfigurationDTO {
 
     public String regServer;
 
+    private boolean useStun;
+    private boolean useICE;
+    private boolean rewrite;
+
     @Nullable
     public Integer regTimeout;
 
@@ -68,6 +72,18 @@ public class AccountConfigurationDTO {
 
     public String getRegServer() {
         return regServer;
+    }
+
+    public boolean getUseStun() {
+        return useStun;
+    }
+
+    public boolean getUseICE() {
+        return useICE;
+    }
+
+    public boolean getRewrite() {
+        return rewrite;
     }
 
     public Map<String, String> getRegHeaders() {
@@ -125,6 +141,9 @@ public class AccountConfigurationDTO {
         c.transport = intent.getStringExtra("transport");
         c.contactParams = intent.getStringExtra("contactParams");
         c.contactUriParams = intent.getStringExtra("contactUriParams");
+        c.useStun = intent.getBooleanExtra("useStun", false);
+        c.useICE = intent.getBooleanExtra("useICE", false);
+        c.rewrite = intent.getBooleanExtra("rewrite", true);
 
         c.regServer = intent.getStringExtra("regServer");
         c.regTimeout = 600;

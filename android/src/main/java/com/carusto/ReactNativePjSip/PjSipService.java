@@ -50,6 +50,7 @@ import org.pjsip.pjsua2.pjmedia_orient;
 import org.pjsip.pjsua2.pjsip_inv_state;
 import org.pjsip.pjsua2.pjsip_status_code;
 import org.pjsip.pjsua2.pjsip_transport_type_e;
+import org.pjsip.pjsua2.pjsua_stun_use;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -497,8 +498,18 @@ public class PjSipService extends Service {
 
         String idUri = configuration.getIdUri();
         String regUri = configuration.getRegUri();
+        boolean useStun = configuration.getUseStun();
+        boolean useICE = configuration.getUseICE();
+        boolean rewrite = configuration.getRewrite();
 
         cfg.setIdUri(idUri);
+        cfg.getNatConfig().setSipStunUse(useStun ? pjsua_stun_use.PJSUA_STUN_USE_DEFAULT : pjsua_stun_use.PJSUA_STUN_USE_DISABLED);
+        cfg.getNatConfig().setMediaStunUse(useStun ? pjsua_stun_use.PJSUA_STUN_USE_DEFAULT : pjsua_stun_use.PJSUA_STUN_USE_DISABLED);
+        cfg.getNatConfig().setIceEnabled(useICE);
+        cfg.getNatConfig().setSdpNatRewriteUse(rewrite ? 1 : 0);
+        cfg.getNatConfig().setViaRewriteUse(0);
+        cfg.getNatConfig().setContactRewriteUse(0);
+
         cfg.getRegConfig().setRegistrarUri(regUri);
         cfg.getRegConfig().setRegisterOnAdd(configuration.isRegOnAdd());
         cfg.getSipConfig().getAuthCreds().add(cred);
